@@ -1,0 +1,53 @@
+{
+  "name": "@okta/samples-js-react",
+  "version": "1.4.0",
+  "description": "React Sample Applications for Okta",
+  "scripts": {
+    "banners": "node tools/maintain-banners.js {okta-hosted-login,custom-login,tools,scripts}/{*js,src/**/*{js,jsx,css}}",
+    "test": "eslint -c .eslintrc.json --ext .js --ext .jsx okta-hosted-login/src/ custom-login/src/ scripts/ -- --fix && npm run test:e2e",
+    "okta-hosted-login-server": "npm start --prefix okta-hosted-login/",
+    "test:okta-hosted-login": "export TEST_TYPE=implicit || setx TEST_TYPE \"implicit\" && protractor okta-oidc-tck/e2e-tests/okta-hosted-login/conf.js",
+    "custom-login-server": "npm start --prefix custom-login/",
+    "test:custom-login": "export TEST_TYPE=implicit || setx TEST_TYPE \"implicit\" && protractor okta-oidc-tck/e2e-tests/custom-login/conf.js",
+    "resource-server": "node samples-nodejs-express-4/resource-server/server.js",
+    "test:e2e": "npm run test:okta-hosted-login && npm run test:custom-login",
+    "pretest": "webdriver-manager update --gecko false && node scripts/setup-env.js",
+    "postinstall": "npm run install-custom-login && npm run install-okta-hosted-login",
+    "install-custom-login": "cd custom-login && npm install",
+    "install-okta-hosted-login": "cd okta-hosted-login && npm install"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/okta/samples-js-react.git"
+  },
+  "bugs": "https://github.com/okta/samples-js-react/issues",
+  "homepage": "https://github.com/okta/samples-js-react",
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "find-process": "^1.1.0",
+    "forever-monitor": "^1.7.1",
+    "globby": "^8.0.0",
+    "jasmine-reporters": "^2.2.0",
+    "platform": "^1.3.5",
+    "protractor": "^5.1.0",
+    "wait-on": "^2.0.2"
+  },
+  "bin": {},
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "@okta/jwt-verifier": "0.0.11",
+    "@okta/oidc-middleware": "0.0.15",
+    "colors": "^1.1.2",
+    "cors": "^2.8.4",
+    "express": "^4.14.0",
+    "express-session": "^1.15.6",
+    "mustache-express": "^1.2.5"
+  },
+  "private": true
+}
