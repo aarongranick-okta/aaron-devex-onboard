@@ -13,3 +13,4 @@ okta-hosted-login/src/.samples.config.js--
 .samples.config.js--
 testenv
 **/.samples*
+**/.okta*
