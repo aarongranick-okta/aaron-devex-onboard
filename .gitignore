@@ -1,4 +1,5 @@
 .samples*
+.secrets*
 build2
 node_modules
 dist

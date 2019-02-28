@@ -1,4 +1,4 @@
-import SECRETS from '../.okta-secrets.json';
+import SECRETS from '../.secrets.json';
 
 export default {
   oidc: {
