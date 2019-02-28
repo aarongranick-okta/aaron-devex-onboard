@@ -2,9 +2,10 @@
   "extends": "airbnb",
   "root": true,
   "rules": {
-    "strict": "off",
+    "strict": 1,
     "max-len": ["error", 200],
     "react/prop-types": "off",
-    "react/prefer-stateless-function": [0]
+    "react/prefer-stateless-function": [0],
+    "quotes": ["error", "single"]
   }
 }
