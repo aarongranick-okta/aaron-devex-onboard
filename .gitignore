@@ -1,3 +1,4 @@
+#.samples*
 build2
 node_modules
 dist
@@ -7,10 +8,4 @@ okta-oidc-tck
 samples-nodejs-express-4
 .DS_Store
 .vscode
-.samples.config.js
-custom-login/src/.samples.config.js--
-okta-hosted-login/src/.samples.config.js--
-.samples.config.js--
 testenv
-**/.samples*
-**/.okta*
