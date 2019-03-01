@@ -1,0 +1,15 @@
+0 silly argv { _: [ 'bootstrap' ],
+0 silly argv   lernaVersion: '3.13.1',
+0 silly argv   '$0': 'node_modules/.bin/lerna' }
+1 notice cli v3.13.1
+2 verbose rootPath /Users/aarongranick/Documents/GitHub/aaron-devex-onboard
+3 error Error: Invalid package name "_conf": name cannot start with an underscore
+3 error     at invalidPackageName (/Users/aarongranick/Documents/GitHub/aaron-devex-onboard/node_modules/npm-package-arg/npa.js:82:15)
+3 error     at Result.setName (/Users/aarongranick/Documents/GitHub/aaron-devex-onboard/node_modules/npm-package-arg/npa.js:118:11)
+3 error     at new Result (/Users/aarongranick/Documents/GitHub/aaron-devex-onboard/node_modules/npm-package-arg/npa.js:107:23)
+3 error     at Function.resolve (/Users/aarongranick/Documents/GitHub/aaron-devex-onboard/node_modules/npm-package-arg/npa.js:54:15)
+3 error     at Object.keys.forEach.depName (/Users/aarongranick/Documents/GitHub/aaron-devex-onboard/node_modules/@lerna/package-graph/index.js:109:30)
+3 error     at Array.forEach (<anonymous>)
+3 error     at PackageGraph.forEach (/Users/aarongranick/Documents/GitHub/aaron-devex-onboard/node_modules/@lerna/package-graph/index.js:103:38)
+3 error     at Map.forEach (<anonymous>)
+3 error     at new PackageGraph (/Users/aarongranick/Documents/GitHub/aaron-devex-onboard/node_modules/@lerna/package-graph/index.js:92:10)

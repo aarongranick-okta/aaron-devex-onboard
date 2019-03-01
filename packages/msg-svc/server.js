@@ -15,15 +15,14 @@ const CONFIG_PATH = path.join(ROOT, process.env.CONFIG || 'conf/default');
 const CONFIG = require(CONFIG_PATH);
 
 console.log('CONFIG', CONFIG);
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : CONFIG.resourceServer.port;
 
 const express = require('express');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 var cors = require('cors');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
-  issuer: CONFIG.oidc.issuer,
-  assertClaims: CONFIG.resourceServer.assertClaims
+  issuer: CONFIG.common.issuer,
+  assertClaims: CONFIG.msgSvc.assertClaims
 });
 
 /**
@@ -93,6 +92,6 @@ app.get('/api/messages', authenticationRequired, (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Resource Server Ready on port ${CONFIG.resourceServer.port}`);
+app.listen(CONFIG.msgSvc.port, () => {
+  console.log(`Resource Server Ready on port ${CONFIG.msgSvc.port}`);
 });

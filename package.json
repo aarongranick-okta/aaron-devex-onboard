@@ -14,9 +14,7 @@
     "resource-server": "node resource-server/server.js",
     "test:e2e": "npm run test:okta-hosted-login && npm run test:custom-login",
     "pretest": "webdriver-manager update --gecko false && node scripts/setup-env.js",
-    "postinstall": "npm run install-custom-login && npm run install-okta-hosted-login",
-    "install-custom-login": "cd custom-login && npm install",
-    "install-okta-hosted-login": "cd okta-hosted-login && npm install"
+    "postinstall": ""
   },
   "author": "",
   "license": "Apache-2.0",

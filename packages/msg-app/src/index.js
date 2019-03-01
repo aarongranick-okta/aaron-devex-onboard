@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
@@ -17,7 +19,14 @@ import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
+// TODO: allow config to be set based on env variable
+import { ConfigContext } from './context';
+
+console.log(ConfigContext);
+const CONFIG = require('conf/default');
+
 /* global document */
 /* eslint-disable react/jsx-filename-extension */
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App config={CONFIG} />, document.getElementById('root'));
+
 registerServiceWorker();
