@@ -11,29 +11,27 @@
  */
 
 import React, { Component } from 'react';
-import { ConfigContext } from './context';
-
 import * as OktaSignIn from '@okta/okta-signin-widget';
 import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
 import '@okta/okta-signin-widget/dist/css/okta-theme.css';
 
-export default class LoginPage extends Component {
-  static get contextType() {
-    return ConfigContext;
-  }
-  
-  constructor(props) {
+import { ConfigContext } from './context';
+
+class LoginPage extends Component {
+  constructor(props, context) {
     super(props);
-    let config = this.context;
+
+    const { issuer } = context.common;
+    const config = context.msgApp;
     this.signIn = new OktaSignIn({
       /**
        * Note: when using the Sign-In Widget for an OIDC flow, it still
        * needs to be configured with the base URL for your Okta Org. Here
        * we derive it from the given issuer for convenience.
        */
-      baseUrl: config.common.issuer.split('/oauth2')[0],
-      clientId: config.msgApp.clientId,
-      redirectUri: config.msgApp.redirectUri,
+      baseUrl: issuer.split('/oauth2')[0],
+      clientId: config.clientId,
+      redirectUri: config.redirectUri,
       logo: '/react.svg',
       i18n: {
         en: {
@@ -42,7 +40,7 @@ export default class LoginPage extends Component {
       },
       authParams: {
         responseType: ['id_token', 'token'],
-        issuer: config.issuer,
+        issuer,
         display: 'page',
         scopes: config.scope.split(' '),
       },
@@ -70,4 +68,8 @@ export default class LoginPage extends Component {
     );
   }
 }
+
+LoginPage.contextType = ConfigContext;
+
+export default LoginPage;
 
