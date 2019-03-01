@@ -9,16 +9,21 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+const path = require('path');
+const ROOT = path.join(__dirname, '../..');
+const CONFIG_PATH = path.join(ROOT, process.env.CONFIG || 'conf/default');
+const CONFIG = require(CONFIG_PATH);
+
+console.log('CONFIG', CONFIG);
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : CONFIG.resourceServer.port;
 
 const express = require('express');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 var cors = require('cors');
 
-const sampleConfig = require('../.samples.config.json');
-
 const oktaJwtVerifier = new OktaJwtVerifier({
-  issuer: sampleConfig.resourceServer.oidc.issuer,
-  assertClaims: sampleConfig.resourceServer.assertClaims
+  issuer: CONFIG.oidc.issuer,
+  assertClaims: CONFIG.resourceServer.assertClaims
 });
 
 /**
@@ -88,6 +93,6 @@ app.get('/api/messages', authenticationRequired, (req, res) => {
   });
 });
 
-app.listen(sampleConfig.resourceServer.port, () => {
-  console.log(`Resource Server Ready on port ${sampleConfig.resourceServer.port}`);
+app.listen(PORT, () => {
+  console.log(`Resource Server Ready on port ${CONFIG.resourceServer.port}`);
 });

@@ -5,9 +5,9 @@
   "scripts": {
     "banners": "node tools/maintain-banners.js {okta-hosted-login,custom-login,tools,scripts}/{*js,src/**/*{js,jsx,css}}",
     "test": "eslint -c .eslintrc.json --ext .js --ext .jsx okta-hosted-login/src/ custom-login/src/ scripts/ -- --fix && npm run test:e2e",
-    "admin-client": "PORT=8081 npm start --prefix packages/admin-client/",
-    "msg-client": "PORT=8080 npm start --prefix packages/msg-client/",
-    "msg-server": "PORT=8000 npm start --prefix packages/msg-server/",
+    "admin-app": "PORT=8081 npm start --prefix packages/admin-app/",
+    "msg-app": "PORT=8080 npm start --prefix packages/msg-app/",
+    "msg-svc": "PORT=8000 npm start --prefix packages/msg-svc/",
     "test:okta-hosted-login": "export TEST_TYPE=implicit || setx TEST_TYPE \"implicit\" && protractor okta-oidc-tck/e2e-tests/okta-hosted-login/conf.js",
     "custom-login-server": "npm start --prefix custom-login/",
     "test:custom-login": "export TEST_TYPE=implicit || setx TEST_TYPE \"implicit\" && protractor okta-oidc-tck/e2e-tests/custom-login/conf.js",

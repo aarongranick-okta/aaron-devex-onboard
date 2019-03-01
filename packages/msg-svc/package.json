@@ -1,0 +1,32 @@
+{
+  "name": "msg-svc",
+  "version": "1.0.0",
+  "description": "This sample application uses the [Okta JWT Verifier][] library to authenticate requests against your Express application, using access tokens.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+
+  "devDependencies": {
+    "dotenv": "^5.0.1",
+    "find-process": "^1.1.0",
+    "forever-monitor": "1.7.1",
+    "jasmine": "^3.0.0",
+    "jasmine-reporters": "2.2.0",
+    "platform": "^1.3.5",
+    "protractor": "^5.1.0",
+    "wait-on": "2.0.2"
+  },
+  "dependencies": {
+    "@okta/jwt-verifier": "0.0.11",
+    "@okta/oidc-middleware": "0.0.15",
+    "colors": "^1.1.2",
+    "cors": "^2.8.4",
+    "express": "^4.14.0",
+    "express-session": "^1.15.6",
+    "mustache-express": "^1.2.5"
+  }
+}
