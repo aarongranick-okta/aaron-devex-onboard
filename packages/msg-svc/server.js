@@ -9,20 +9,19 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+const cors = require('cors');
 const path = require('path');
+
 const ROOT = path.join(__dirname, '../..');
 const CONFIG_PATH = path.join(ROOT, process.env.CONFIG || 'conf/default');
 const CONFIG = require(CONFIG_PATH);
 
-console.log('CONFIG', CONFIG);
-
 const express = require('express');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
-var cors = require('cors');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
   issuer: CONFIG.common.issuer,
-  assertClaims: CONFIG.msgSvc.assertClaims
+  assertClaims: CONFIG.msgSvc.assertClaims,
 });
 
 /**
@@ -44,7 +43,21 @@ function authenticationRequired(req, res, next) {
   return oktaJwtVerifier.verifyAccessToken(accessToken)
     .then((jwt) => {
       req.jwt = jwt;
-      next();
+      console.log('CLAIMS: ', jwt.claims);
+      const clientId = jwt.claims.cid;
+      if (clientId === CONFIG.msgApp.clientId) {
+        console.log('Serving messages to MSG app');
+        return next();
+      }
+
+      if (clientId === CONFIG.adminApp.clientId) {
+        console.log('Serving messages to ADMIN app');
+        return next();
+      }
+
+      console.log('UNKNOWN APPLICATION!!', clientId);
+      res.status(401);
+      return next('Unauthorized');
     })
     .catch((err) => {
       res.status(401).send(err.message);

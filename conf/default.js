@@ -29,7 +29,7 @@ module.exports = {
     port: PORTS.MSG_SVC,
     assertClaims: {
       aud: 'api://default',
-      cid: `${SECRETS.clientId}`,
-    }
-  }
+      // cid: `${SECRETS.clientId}`,
+    },
+  },
 };
