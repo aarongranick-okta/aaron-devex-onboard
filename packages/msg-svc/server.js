@@ -73,7 +73,7 @@ app.use(cors());
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'Hello!  There\'s not much to see here :) Please grab one of our front-end samples for use with this sample resource server'
+    message: 'Hello!  There\'s not much to see here :) Please grab one of our front-end samples for use with this sample resource server',
   });
 });
 
@@ -94,14 +94,14 @@ app.get('/api/messages', authenticationRequired, (req, res) => {
   res.json({
     messages: [
       {
-        date:  new Date(),
-        text: 'I am a robot.'
+        date: new Date(),
+        text: 'I am a robot.',
       },
       {
-        date:  new Date(new Date().getTime() - 1000 * 60 * 60),
-        text: 'Hello, world!'
-      }
-    ]
+        date: new Date(new Date().getTime() - 1000 * 60 * 60),
+        text: 'Hello, world!',
+      },
+    ],
   });
 });
 
