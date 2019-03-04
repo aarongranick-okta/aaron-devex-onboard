@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "app-common": "1.0.0",
+    "conf": "1.0.0",
     "@okta/okta-react": "^1.0.3",
     "colors": "^1.1.2",
     "cross-env": "^5.1.3",

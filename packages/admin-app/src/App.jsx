@@ -15,6 +15,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 
+// TODO: allow config to be set based on env variable
+import { ConfigContext } from 'app-common/context';
+
 import Home from './Home';
 import Messages from './Messages';
 import Navbar from './Navbar';
@@ -22,23 +25,25 @@ import Profile from './Profile';
 
 class App extends Component {
   render() {
-    let config = this.props.config;
+    const { config } = this.props;
     return (
-      <Router>
-        <Security
-          issuer={config.issuer}
-          client_id={config.clientId}
-          redirect_uri={config.redirectUri}
-        >
-          <Navbar />
-          <Container text style={{ marginTop: '7em' }}>
-            <Route path="/" exact component={Home} />
-            <Route path="/implicit/callback" component={ImplicitCallback} />
-            <SecureRoute path="/messages" component={Messages} />
-            <SecureRoute path="/profile" component={Profile} />
-          </Container>
-        </Security>
-      </Router>
+      <ConfigContext.Provider value={config}>
+        <Router>
+          <Security
+            issuer={config.common.issuer}
+            client_id={config.adminApp.clientId}
+            redirect_uri={config.adminApp.redirectUri}
+          >
+            <Navbar />
+            <Container text style={{ marginTop: '7em' }}>
+              <Route path="/" exact component={Home} />
+              <Route path="/implicit/callback" component={ImplicitCallback} />
+              <SecureRoute path="/messages" component={Messages} />
+              <SecureRoute path="/profile" component={Profile} />
+            </Container>
+          </Security>
+        </Router>
+      </ConfigContext.Provider>
     );
   }
 }

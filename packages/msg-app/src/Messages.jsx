@@ -12,7 +12,7 @@
 
 import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
-import { ConfigContext } from './context';
+import { ConfigContext } from 'app-common/context';
 import { Header, Icon, Message, Table } from 'semantic-ui-react';
 
 export default withAuth(class Profile extends Component {
@@ -29,7 +29,7 @@ export default withAuth(class Profile extends Component {
   }
 
   async getMessages() {
-    let config = this.context;
+    const config = this.context;
     if (!this.state.messages) {
       try {
         const accessToken = await this.props.auth.getAccessToken();

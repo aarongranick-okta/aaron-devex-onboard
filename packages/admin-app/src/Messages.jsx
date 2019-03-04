@@ -13,10 +13,9 @@
 import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
 import { Header, Icon, Message, Table } from 'semantic-ui-react';
+import { ConfigContext } from 'app-common/context';
 
-import config from './.samples.config';
-
-export default withAuth(class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = { messages: null, failed: null };
@@ -27,11 +26,12 @@ export default withAuth(class Profile extends Component {
   }
 
   async getMessages() {
+    const config = this.context;
     if (!this.state.messages) {
       try {
         const accessToken = await this.props.auth.getAccessToken();
         /* global fetch */
-        const response = await fetch(config.resourceServer.messagesUrl, {
+        const response = await fetch(config.msgSvc.messagesUrl, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -102,4 +102,6 @@ export default withAuth(class Profile extends Component {
       </div>
     );
   }
-});
+}
+Profile.contextType = ConfigContext;
+export default withAuth(Profile);

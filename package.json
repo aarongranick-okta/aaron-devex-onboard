@@ -50,5 +50,6 @@
     "express-session": "^1.15.6",
     "mustache-express": "^1.2.5"
   },
-  "private": true
+  "private": true,
+  "workspaces": ["conf", "packages/*"]
 }

@@ -11,7 +11,7 @@
  */
 
 // TODO: allow config to be set based on env variable
-import CONFIG from '../../../conf/default';
+import CONFIG from 'conf/default';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

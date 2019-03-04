@@ -19,10 +19,6 @@ import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
-// TODO: allow config to be set based on env variable
-import { ConfigContext } from './context';
-
-console.log(ConfigContext);
 const CONFIG = require('conf/default');
 
 /* global document */

@@ -1,7 +1,8 @@
 // Used by Node JS, must be ES5 with node v9
 
-const SECRETS = require('../.secrets.json');
-const ISSUER = `https://${SECRETS.oktaDomain}.okta.com/oauth2/default`;
+const SECRETS = require('./.secrets.json');
+
+const ISSUER = `https://${SECRETS.oktaDomain}/oauth2/default`;
 
 const PORTS = {
   MSG_APP: process.env.PORT || 8080,
