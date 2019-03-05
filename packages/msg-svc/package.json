@@ -20,6 +20,7 @@
     "wait-on": "2.0.2"
   },
   "dependencies": {
+    "conf": "1.0.0",
     "@okta/jwt-verifier": "0.0.11",
     "@okta/oidc-middleware": "0.0.15",
     "body-parser": "^1.18.3",

@@ -10,20 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 const cors = require('cors');
-const path = require('path');
-
-const ROOT = path.join(__dirname, '../..');
-const CONFIG_PATH = path.join(ROOT, process.env.CONFIG || 'conf/default');
-const CONFIG = require(CONFIG_PATH);
+const CONFIG = require('conf/default');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const OktaJwtVerifier = require('@okta/jwt-verifier');
-
-const oktaJwtVerifier = new OktaJwtVerifier({
-  issuer: CONFIG.common.issuer,
-  assertClaims: CONFIG.msgSvc.assertClaims,
-});
 
 const state = {
   messages: [
@@ -38,45 +28,8 @@ const state = {
   ],
 };
 
-/**
- * A simple middleware that asserts valid access tokens and sends 401 responses
- * if the token is not present or fails validation.  If the token is valid its
- * contents are attached to req.jwt
- */
-function authenticationRequired(req, res, next) {
-  const authHeader = req.headers.authorization || '';
-  const match = authHeader.match(/Bearer (.+)/);
-
-  if (!match) {
-    res.status(401);
-    return next('Unauthorized');
-  }
-
-  const accessToken = match[1];
-
-  return oktaJwtVerifier.verifyAccessToken(accessToken)
-    .then((jwt) => {
-      req.jwt = jwt;
-      console.log('CLAIMS: ', jwt.claims);
-      const clientId = jwt.claims.cid;
-      if (clientId === CONFIG.msgApp.clientId) {
-        console.log('Serving messages to MSG app');
-        return next();
-      }
-
-      if (clientId === CONFIG.adminApp.clientId) {
-        console.log('Serving messages to ADMIN app');
-        return next();
-      }
-
-      console.log('UNKNOWN APPLICATION!!', clientId);
-      res.status(401);
-      return next('Unauthorized');
-    })
-    .catch((err) => {
-      res.status(401).send(err.message);
-    });
-}
+const serverState = require('./middleware/state')(state);
+const authenticationRequired = require('./middleware/auth')(CONFIG);
 
 const app = express();
 
@@ -84,6 +37,8 @@ const app = express();
  * For local testing only!  Enables CORS for all domains
  */
 app.use(cors());
+
+app.use(serverState);
 
 app.get('/', (req, res) => {
   res.json({
@@ -104,35 +59,11 @@ app.get('/secure', authenticationRequired, (req, res) => {
  * Another example route that requires a valid access token for authentication, and
  * print some messages for the user if they are authenticated
  */
-app.get('/api/messages', authenticationRequired, (req, res) => {
-  res.json({
-    messages: state.messages,
-  });
-});
+app.get('/api/messages', authenticationRequired, require('./endpoints/messages'));
 
 app.use(bodyParser.json());
 
-app.post('/api/post', authenticationRequired, (req, res) => {
-  console.log('POST: ', req.body);
-
-  state.messages.push({
-    date: new Date(),
-    text: req.body.msg,
-  });
-  res.json({});
-  // res.json({
-  //   messages: [
-  //     {
-  //       date: new Date(),
-  //       text: 'I am a robot.',
-  //     },
-  //     {
-  //       date: new Date(new Date().getTime() - 1000 * 60 * 60),
-  //       text: 'Hello, world!',
-  //     },
-  //   ],
-  // });
-});
+app.post('/api/post', authenticationRequired, require('./endpoints/post'));
 
 app.listen(CONFIG.msgSvc.port, () => {
   console.log(`Resource Server Ready on port ${CONFIG.msgSvc.port}`);
