@@ -13,7 +13,7 @@
 import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
 import { Container, Icon, Image, Menu } from 'semantic-ui-react';
-import { checkAuthentication } from './helpers';
+import { checkAuthentication } from 'app-common/helpers';
 
 export default withAuth(class Navbar extends Component {
   constructor(props) {

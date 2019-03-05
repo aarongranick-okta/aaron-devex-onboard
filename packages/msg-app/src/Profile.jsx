@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import { Header, Icon, Table } from 'semantic-ui-react';
 
-import { checkAuthentication } from './helpers';
+import { checkAuthentication } from 'app-common/helpers';
 
 export default withAuth(class Profile extends Component {
   constructor(props) {
