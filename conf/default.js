@@ -26,6 +26,7 @@ module.exports = {
   },
   msgSvc: {
     messagesUrl: `http://localhost:${PORTS.MSG_SVC}/api/messages`,
+    postUrl: `http://localhost:${PORTS.MSG_SVC}/api/post`,
     port: PORTS.MSG_SVC,
     assertClaims: {
       aud: 'api://default',

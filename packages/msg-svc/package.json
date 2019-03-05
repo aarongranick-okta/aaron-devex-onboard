@@ -9,7 +9,6 @@
   },
   "author": "",
   "license": "ISC",
-
   "devDependencies": {
     "dotenv": "^5.0.1",
     "find-process": "^1.1.0",
@@ -23,6 +22,7 @@
   "dependencies": {
     "@okta/jwt-verifier": "0.0.11",
     "@okta/oidc-middleware": "0.0.15",
+    "body-parser": "^1.18.3",
     "colors": "^1.1.2",
     "cors": "^2.8.4",
     "express": "^4.14.0",

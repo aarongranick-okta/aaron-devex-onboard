@@ -17,12 +17,26 @@ const CONFIG_PATH = path.join(ROOT, process.env.CONFIG || 'conf/default');
 const CONFIG = require(CONFIG_PATH);
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 
 const oktaJwtVerifier = new OktaJwtVerifier({
   issuer: CONFIG.common.issuer,
   assertClaims: CONFIG.msgSvc.assertClaims,
 });
+
+const state = {
+  messages: [
+    {
+      date: new Date(),
+      text: 'I am a robot.',
+    },
+    {
+      date: new Date(new Date().getTime() - 1000 * 60 * 60),
+      text: 'Hello, world!',
+    },
+  ],
+};
 
 /**
  * A simple middleware that asserts valid access tokens and sends 401 responses
@@ -92,17 +106,32 @@ app.get('/secure', authenticationRequired, (req, res) => {
  */
 app.get('/api/messages', authenticationRequired, (req, res) => {
   res.json({
-    messages: [
-      {
-        date: new Date(),
-        text: 'I am a robot.',
-      },
-      {
-        date: new Date(new Date().getTime() - 1000 * 60 * 60),
-        text: 'Hello, world!',
-      },
-    ],
+    messages: state.messages,
   });
+});
+
+app.use(bodyParser.json());
+
+app.post('/api/post', authenticationRequired, (req, res) => {
+  console.log('POST: ', req.body);
+
+  state.messages.push({
+    date: new Date(),
+    text: req.body.msg,
+  });
+  res.json({});
+  // res.json({
+  //   messages: [
+  //     {
+  //       date: new Date(),
+  //       text: 'I am a robot.',
+  //     },
+  //     {
+  //       date: new Date(new Date().getTime() - 1000 * 60 * 60),
+  //       text: 'Hello, world!',
+  //     },
+  //   ],
+  // });
 });
 
 app.listen(CONFIG.msgSvc.port, () => {
