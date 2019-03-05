@@ -12,13 +12,14 @@
 
 // TODO: allow config to be set based on env variable
 import CONFIG from 'conf/default';
+import registerServiceWorker from 'app-common/registerServiceWorker';
+import 'app-common/index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
+
 import App from './App';
-import './index.css';
-import registerServiceWorker from './registerServiceWorker';
 
 /* global document */
 /* eslint-disable react/jsx-filename-extension */

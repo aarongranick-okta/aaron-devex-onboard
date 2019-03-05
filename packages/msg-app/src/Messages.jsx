@@ -14,8 +14,9 @@ import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
 import { ConfigContext } from 'app-common/context';
 import { Header, Icon, Message, Table } from 'semantic-ui-react';
+import Compose from './Compose';
 
-export default withAuth(class Profile extends Component {
+class Messages extends Component {
   static get contextType() {
     return ConfigContext;
   }
@@ -74,22 +75,13 @@ export default withAuth(class Profile extends Component {
     ];
     return (
       <div>
+        <Compose />
         <Header as="h1"><Icon name="mail outline" /> My Messages</Header>
         {this.state.failed === true && <Message error header="Failed to fetch messages.  Please verify the following:" list={possibleErrors} />}
         {this.state.failed === null && <p>Fetching Messages..</p>}
         {this.state.messages &&
           <div>
-            <p>This component makes a GET request to the resource server example, which must be running at <code>localhost:8000/api/messages</code></p>
-            <p>
-              It attaches your current access token in the <code>Authorization</code> header on the request,
-              and the resource server will attempt to authenticate this access token.
-              If the token is valid the server will return a list of messages.  If the token is not valid
-              or the resource server is incorrectly configured, you will see a 401 <code>Unauthorized response</code>.
-            </p>
-            <p>
-              This route is protected with the <code>&lt;SecureRoute&gt;</code> component, which will
-              ensure that this page cannot be accessed until you have authenticated and have an access token in local storage.
-            </p>
+       
             <Table>
               <thead>
                 <tr>
@@ -105,4 +97,6 @@ export default withAuth(class Profile extends Component {
       </div>
     );
   }
-});
+}
+
+export default withAuth(Messages);

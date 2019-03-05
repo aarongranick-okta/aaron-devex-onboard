@@ -18,6 +18,7 @@ import { Container } from 'semantic-ui-react';
 // TODO: allow config to be set based on env variable
 import { ConfigContext } from 'app-common/context';
 
+import './App.css';
 import Home from './Home';
 import Messages from './Messages';
 import Navbar from './Navbar';

@@ -21,7 +21,7 @@ import CustomLoginComponent from './Login';
 import Messages from './Messages';
 import Navbar from './Navbar';
 import Profile from './Profile';
-
+import './App.css';
 
 function customAuthHandler({ history }) {
   // Redirect to the /login page that has a CustomLoginComponent
