@@ -95,6 +95,7 @@ class Compose extends Component {
             <label>Message:</label>
             <Form.Input
               placeholder="Enter message..."
+              autoComplete="off"
               name="draftMsg"
               value={draftMsg}
               onChange={this.handleChange}

@@ -15,7 +15,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
-import { ConfigContext } from 'app-common/context';
+// import { ConfigContext } from 'app-common/context';
+import provideConfig from './provideConfig';
 import Home from './Home';
 import CustomLoginComponent from './Login';
 import Messages from './Messages';
@@ -30,34 +31,34 @@ function customAuthHandler({ history }) {
 
 class App extends Component {
   render() {
-    console.log(ConfigContext);
+    // console.log(ConfigContext);
     const { config } = this.props;
     return (
-      <ConfigContext.Provider value={config}>
-        <div>
-          <Router>
-            <Security
-              issuer={config.common.issuer}
-              client_id={config.msgApp.clientId}
-              redirect_uri={config.msgApp.redirectUri}
-              onAuthRequired={customAuthHandler}
-            >
-              <Navbar />
-              <Container text style={{ marginTop: '7em' }}>
-                <Route path="/" exact component={Home} />
-                <Route path="/implicit/callback" component={ImplicitCallback} />
-                <Route path="/login" component={CustomLoginComponent} />
-                <SecureRoute path="/messages" component={Messages} />
-                <SecureRoute path="/profile" component={Profile} />
-              </Container>
-            </Security>
-          </Router>
-        </div>
-      </ConfigContext.Provider>
+      <div>
+        <Router>
+          <Security
+            issuer={config.common.issuer}
+            client_id={config.msgApp.clientId}
+            redirect_uri={config.msgApp.redirectUri}
+            onAuthRequired={customAuthHandler}
+          >
+            <Navbar />
+            <Container text style={{ marginTop: '7em' }}>
+              <Route path="/" exact component={Home} />
+              <Route path="/implicit/callback" component={ImplicitCallback} />
+              <Route path="/login" component={CustomLoginComponent} />
+              <SecureRoute path="/messages" component={Messages} />
+              <SecureRoute path="/profile" component={Profile} />
+            </Container>
+          </Security>
+        </Router>
+      </div>
+
     );
   }
 }
 
-App.contextType = ConfigContext;
+// App.contextType = ConfigContext;
 
+App = provideConfig(App);
 export default App;

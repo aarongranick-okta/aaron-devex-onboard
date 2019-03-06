@@ -10,6 +10,10 @@ const PORTS = {
   ADMIN_APP: process.env.PORT || 8081,
 };
 
+const BASE_URLS = {
+  MSG_SVC: `http://localhost:${PORTS.MSG_SVC}/api`
+};
+
 module.exports = {
   common: {
     issuer: ISSUER,
@@ -25,8 +29,9 @@ module.exports = {
     scope: 'openid profile email',
   },
   msgSvc: {
-    messagesUrl: `http://localhost:${PORTS.MSG_SVC}/api/messages`,
-    postUrl: `http://localhost:${PORTS.MSG_SVC}/api/post`,
+    baseUrl: `${BASE_URLS.MSG_SVC}`,
+    messagesUrl: `${BASE_URLS.MSG_SVC}/messages`,
+    postUrl: `${BASE_URLS.MSG_SVC}/post`,
     port: PORTS.MSG_SVC,
     assertClaims: {
       aud: 'api://default',

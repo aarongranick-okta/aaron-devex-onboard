@@ -15,6 +15,7 @@ import React, { Component } from 'react';
 import { ConfigContext } from 'app-common/context';
 import { Header, Icon, Message, Table } from 'semantic-ui-react';
 import Compose from './Compose';
+import MessageList from './MessageList';
 
 class Messages extends Component {
   static get contextType() {
@@ -46,20 +47,21 @@ class Messages extends Component {
           return;
         }
 
-        let index = 0;
+        //let index = 0;
         const data = await response.json();
-        const messages = data.messages.map((message) => {
-          const date = new Date(message.date);
-          const day = date.toLocaleDateString();
-          const time = date.toLocaleTimeString();
-          index += 1;
-          return {
-            date: `${day} ${time}`,
-            text: message.text,
-            id: `message-${index}`,
-          };
-        });
-        this.setState({ messages, failed: false });
+        const { allMessages, sentMessages } = data;
+        // const messages = data.messages.map((message) => {
+        //   const date = new Date(message.date);
+        //   const day = date.toLocaleDateString();
+        //   const time = date.toLocaleTimeString();
+        //   index += 1;
+        //   return {
+        //     date: `${day} ${time}`,
+        //     text: message.text,
+        //     id: `message-${index}`,
+        //   };
+        // });
+        this.setState({ allMessages, sentMessages, failed: false });
       } catch (err) {
         this.setState({ failed: true });
         /* eslint-disable no-console */
@@ -79,21 +81,20 @@ class Messages extends Component {
         <Header as="h1"><Icon name="mail outline" /> My Messages</Header>
         {this.state.failed === true && <Message error header="Failed to fetch messages.  Please verify the following:" list={possibleErrors} />}
         {this.state.failed === null && <p>Fetching Messages..</p>}
-        {this.state.messages &&
+        {this.state.sentMessages && (
           <div>
-       
-            <Table>
-              <thead>
-                <tr>
-                  <th>Date</th><th>Message</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.messages.map(message => <tr id={message.id} key={message.id}><td>{message.date}</td><td>{message.text}</td></tr>)}
-              </tbody>
-            </Table>
+            <b>Sent messages</b>
+            <hr />
+            <MessageList messages={this.state.sentMessages} />
           </div>
-        }
+        )}
+        {this.state.allMessages && (
+          <div>
+            <b>ALL messages</b>
+            <hr />
+            <MessageList messages={this.state.allMessages} />
+          </div>
+        )}
       </div>
     );
   }

@@ -16,16 +16,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const state = {
-  messages: [
-    {
-      date: new Date(),
-      text: 'I am a robot.',
-    },
-    {
-      date: new Date(new Date().getTime() - 1000 * 60 * 60),
-      text: 'Hello, world!',
-    },
-  ],
+  allMessages: [],
+  sentMessages: {},
+  receivedMessages: {},
 };
 
 const serverState = require('./middleware/state')(state);
@@ -51,7 +44,7 @@ app.get('/', (req, res) => {
  * will echo the contents of the access token if the middleware successfully
  * validated the token.
  */
-app.get('/secure', authenticationRequired, (req, res) => {
+app.get('/api/secure', authenticationRequired, (req, res) => {
   res.json(req.jwt);
 });
 

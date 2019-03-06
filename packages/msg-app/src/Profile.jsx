@@ -15,8 +15,9 @@ import { withAuth } from '@okta/okta-react';
 import { Header, Icon, Table } from 'semantic-ui-react';
 
 import { checkAuthentication } from 'app-common/helpers';
+import withConfig from './withConfig';
 
-export default withAuth(class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = { userinfo: null, ready: false };
@@ -26,6 +27,17 @@ export default withAuth(class Profile extends Component {
   async componentDidMount() {
     await this.checkAuthentication();
     this.applyClaims();
+
+    const { config } = this.props;
+    const accessToken = await this.props.auth.getAccessToken();
+    /* global fetch */
+    const response = await fetch(`${config.msgSvc.baseUrl}/secure`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const data = await response.json();
+    console.log('DATA', data);
   }
 
   async componentDidUpdate() {
@@ -72,4 +84,9 @@ export default withAuth(class Profile extends Component {
       </div>
     );
   }
-});
+}
+
+console.log('withConfig: ', withConfig);
+Profile = withConfig(Profile);
+Profile = withAuth(Profile);
+export default Profile;

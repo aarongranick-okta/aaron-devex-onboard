@@ -1,6 +1,10 @@
 module.exports = function messagesEndpoint(req, res) {
   const { state } = req;
+  const { uid } = req.jwt.claims;
+
   res.json({
-    messages: state.messages,
+    allMessages: state.allMessages || [],
+    sentMessages: state.sentMessages[uid] || [],
+    receivedMessages: state.receivedMessages[uid] || [],
   });
 };
