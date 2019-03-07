@@ -3,10 +3,12 @@
   "version": "1.4.0",
   "description": "React Sample Applications for Okta",
   "scripts": {
+    "start": "cross-env react-scripts start",
+    "build": "react-scripts build",
     "banners": "node tools/maintain-banners.js {okta-hosted-login,custom-login,tools,scripts}/{*js,src/**/*{js,jsx,css}}",
     "test": "eslint -c .eslintrc.json --ext .js --ext .jsx okta-hosted-login/src/ custom-login/src/ scripts/ -- --fix && npm run test:e2e",
     "admin-app": "PORT=8081 npm start --prefix packages/admin-app/",
-    "msg-app": "PORT=8080 npm start --prefix packages/msg-app/",
+    "react-app": "PORT=8080 npm start --prefix packages/react-app/",
     "msg-svc": "PORT=8000 npm start --prefix packages/msg-svc/",
     "test:okta-hosted-login": "export TEST_TYPE=implicit || setx TEST_TYPE \"implicit\" && protractor okta-oidc-tck/e2e-tests/okta-hosted-login/conf.js",
     "custom-login-server": "npm start --prefix custom-login/",

@@ -10,51 +10,55 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { withAuth } from '@okta/okta-react';
+// import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
 import { Button, Header } from 'semantic-ui-react';
-import { checkAuthentication } from 'app-common/helpers';
+import withUser from '../containers/withUser';
 
-export default withAuth(class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { authenticated: null, userinfo: null };
-    this.checkAuthentication = checkAuthentication.bind(this);
-    this.login = this.login.bind(this);
-  }
+import { LOGIN } from '../constants/ActionTypes';
 
-  async componentDidMount() {
-    this.checkAuthentication();
-  }
+const Home = (props) => {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = { authenticated: null, userinfo: null };
+  //   //this.checkAuthentication = checkAuthentication.bind(this);
+  //   this.login = this.login.bind(this);
+  // }
 
-  async componentDidUpdate() {
-    this.checkAuthentication();
-  }
+  // // async componentDidMount() {
+  // //   this.checkAuthentication();
+  // // }
 
-  async login() {
-    this.props.auth.login('/');
-  }
+  // // async componentDidUpdate() {
+  // //   this.checkAuthentication();
+  // // }
 
-  render() {
-    const resourceServerExamples = [
-      {
-        label: 'Node/Express Resource Server Example',
-        url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server',
-      },
-      {
-        label: 'Java/Spring MVC Resource Server Example',
-        url: 'https://github.com/okta/samples-java-spring-mvc/tree/master/resource-server',
-      },
-    ];
+  // async login() {
+  //   //this.props.auth.login('/');
+  //   (this.props.login)();
+  // }
 
-    return (
-      <div>
-        {this.state.authenticated !== null &&
+  // render() {
+  const resourceServerExamples = [
+    {
+      label: 'Node/Express Resource Server Example',
+      url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server',
+    },
+    {
+      label: 'Java/Spring MVC Resource Server Example',
+      url: 'https://github.com/okta/samples-java-spring-mvc/tree/master/resource-server',
+    },
+  ];
+
+  const { authenticated, userinfo, login } = props;
+  return (
+    <div>
+      {authenticated !== null &&
         <div>
           <Header as="h1">Custom Login Page with Sign In Widget</Header>
-          {this.state.authenticated &&
+          {authenticated &&
             <div>
-              <p>Welcome back, {this.state.userinfo.name}!</p>
+              <p>Welcome back, {userinfo.name}!</p>
               <p>
                 You have successfully authenticated against your Okta org, and have been redirected back to this application.  You now have an ID token and access token in local storage.
                 Visit the <a href="/profile">My Profile</a> page to take a look inside the ID token.
@@ -68,7 +72,7 @@ export default withAuth(class Home extends Component {
               <p>Once you have downloaded and started the example resource server, you can visit the <a href="/messages">My Messages</a> page to see the authentication process in action.</p>
             </div>
           }
-          {!this.state.authenticated &&
+          {!authenticated &&
             <div>
               <p>If you&lsquo;re viewing this page then you have successfully started this React application.</p>
               <p>
@@ -86,12 +90,14 @@ export default withAuth(class Home extends Component {
                 After this you will be redirected back to the application with an ID token and access token.
                 The tokens will be stored in local storage for future use.
               </p>
-              <Button id="login-button" primary onClick={this.login}>Login</Button>
+              <Button id="login-button" primary onClick={login}>Login</Button>
             </div>
           }
         </div>
         }
-      </div>
-    );
-  }
-});
+    </div>
+  );
+};
+
+
+export default Home;

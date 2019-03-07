@@ -11,9 +11,10 @@
  */
 
 import { withAuth } from '@okta/okta-react';
+import { Form, Button } from 'semantic-ui-react';
 import React, { Component } from 'react';
-import { ConfigContext } from 'app-common/context';
-import { Header, Icon, Message, Table, Form, Button } from 'semantic-ui-react';
+import { ConfigContext } from '../context';
+
 
 class Compose extends Component {
   static get contextType() {

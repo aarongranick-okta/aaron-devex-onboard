@@ -12,10 +12,11 @@
 
 import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
-import { ConfigContext } from 'app-common/context';
-import { Header, Icon, Message, Table } from 'semantic-ui-react';
-import Compose from './Compose';
-import MessageList from './MessageList';
+import { Header, Icon, Message } from 'semantic-ui-react';
+
+import { ConfigContext } from '../context';
+import Compose from '../components/Compose';
+import MessageList from '../components/MessageList';
 
 class Messages extends Component {
   static get contextType() {
@@ -47,7 +48,7 @@ class Messages extends Component {
           return;
         }
 
-        //let index = 0;
+        // let index = 0;
         const data = await response.json();
         const { allMessages, sentMessages } = data;
         // const messages = data.messages.map((message) => {

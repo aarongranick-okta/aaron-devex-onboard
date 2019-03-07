@@ -13,24 +13,24 @@
 import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
 import { Container, Icon, Image, Menu } from 'semantic-ui-react';
-import { checkAuthentication } from 'app-common/helpers';
+import { checkAuthentication } from '../helpers';
 
 export default withAuth(class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = { authenticated: null };
-    this.checkAuthentication = checkAuthentication.bind(this);
+    //this.checkAuthentication = checkAuthentication.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
   }
 
-  async componentDidMount() {
-    this.checkAuthentication();
-  }
+  // async componentDidMount() {
+  //   this.checkAuthentication();
+  // }
 
-  async componentDidUpdate() {
-    this.checkAuthentication();
-  }
+  // async componentDidUpdate() {
+  //   this.checkAuthentication();
+  // }
 
   async login() {
     this.props.auth.login('/');

@@ -11,52 +11,53 @@
  */
 
 import React, { Component } from 'react';
-import { withAuth } from '@okta/okta-react';
 import { Header, Icon, Table } from 'semantic-ui-react';
 
-import { checkAuthentication } from 'app-common/helpers';
-import withConfig from './withConfig';
+//import withConfig from '../containers/withConfig';
+import withUser from '../containers/withUser';
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { userinfo: null, ready: false };
-    this.checkAuthentication = checkAuthentication.bind(this);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   //this.state = { userinfo: null, ready: false };
+  // }
 
-  async componentDidMount() {
-    await this.checkAuthentication();
-    this.applyClaims();
+  // async componentDidMount() {
+  //   await this.checkAuthentication();
+  //   this.applyClaims();
 
-    const { config } = this.props;
-    const accessToken = await this.props.auth.getAccessToken();
-    /* global fetch */
-    const response = await fetch(`${config.msgSvc.baseUrl}/secure`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    const data = await response.json();
-    console.log('DATA', data);
-  }
+  //   const { config } = this.props;
+  //   const accessToken = await this.props.auth.getAccessToken();
+  //   /* global fetch */
+  //   const response = await fetch(`${config.msgSvc.baseUrl}/secure`, {
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //   });
+  //   const data = await response.json();
+  //   console.log('DATA', data);
+  // }
 
-  async componentDidUpdate() {
-    await this.checkAuthentication();
-    this.applyClaims();
-  }
+  // async componentDidUpdate() {
+  //   await this.checkAuthentication();
+  //   this.applyClaims();
+  // }
 
-  async applyClaims() {
-    if (this.state.userinfo && !this.state.claims) {
-      const claims = Object.entries(this.state.userinfo);
-      this.setState({ claims, ready: true });
-    }
-  }
+  // async applyClaims() {
+  //   if (this.state.userinfo && !this.state.claims) {
+  //     const claims = Object.entries(this.state.userinfo);
+  //     this.setState({ claims, ready: true });
+  //   }
+  // }
 
   render() {
+    const { userinfo } = this.props;
+    const ready = !!userinfo;
+    const claims = userinfo ? Object.entries(userinfo) : [];
     return (
       <div>
-        {!this.state.ready && <p>Fetching user profile..</p>}
-        {this.state.ready &&
+        {!ready && <p>Fetching user profile..</p>}
+        {ready &&
         <div>
           <Header as="h1"><Icon name="drivers license outline" /> My User Profile (ID Token Claims) </Header>
           <p>
@@ -71,7 +72,7 @@ class Profile extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.claims.map((claimEntry) => {
+              {claims.map((claimEntry) => {
                 const claimName = claimEntry[0];
                 const claimValue = claimEntry[1];
                 const claimId = `claim-${claimName}`;
@@ -86,7 +87,8 @@ class Profile extends Component {
   }
 }
 
-console.log('withConfig: ', withConfig);
-Profile = withConfig(Profile);
-Profile = withAuth(Profile);
+//console.log('withConfig: ', withConfig);
+/* eslint-disable no-class-assign */
+//Profile = withConfig(Profile);
+Profile = withUser(Profile);
 export default Profile;

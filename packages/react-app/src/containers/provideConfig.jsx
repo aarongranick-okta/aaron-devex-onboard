@@ -1,9 +1,10 @@
 import React from 'react';
-import { ConfigContext } from 'app-common/context';
+import { ConfigContext } from '../context';
 
-const provideConfig = (Component) => {
+const provideConfig = (Component, config) => {
+  const context = { config };
   const C = props => (
-    <ConfigContext.Provider value={props.config}>
+    <ConfigContext.Provider value={context}>
       <Component {...props} />
     </ConfigContext.Provider>
   );

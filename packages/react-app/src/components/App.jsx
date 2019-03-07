@@ -16,13 +16,19 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Security, SecureRoute, ImplicitCallback } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 // import { ConfigContext } from 'app-common/context';
-import provideConfig from './provideConfig';
-import Home from './Home';
-import CustomLoginComponent from './Login';
-import Messages from './Messages';
-import Navbar from './Navbar';
-import Profile from './Profile';
+//import provideConfig from './containers/provideConfig';
+
+import provideAuth from '../containers/provideAuth';
+import provideUser from '../containers/provideUser';
+
 import './App.css';
+import Navbar from './Navbar';
+
+import Home from '../containers/Home';
+import CustomLoginComponent from '../pages/Login';
+import Messages from '../pages/Messages';
+
+import Profile from '../pages/Profile';
 
 function customAuthHandler({ history }) {
   // Redirect to the /login page that has a CustomLoginComponent
@@ -32,25 +38,22 @@ function customAuthHandler({ history }) {
 class App extends Component {
   render() {
     // console.log(ConfigContext);
-    const { config } = this.props;
+    const { auth } = this.props;
     return (
       <div>
         <Router>
-          <Security
-            issuer={config.common.issuer}
-            client_id={config.msgApp.clientId}
-            redirect_uri={config.msgApp.redirectUri}
-            onAuthRequired={customAuthHandler}
-          >
-            <Navbar />
-            <Container text style={{ marginTop: '7em' }}>
-              <Route path="/" exact component={Home} />
-              <Route path="/implicit/callback" component={ImplicitCallback} />
-              <Route path="/login" component={CustomLoginComponent} />
-              <SecureRoute path="/messages" component={Messages} />
-              <SecureRoute path="/profile" component={Profile} />
-            </Container>
-          </Security>
+          <div>
+            <Security auth={auth}>
+              <Navbar />
+              <Container text style={{ marginTop: '7em' }}>
+                <Route path="/" exact component={Home} />
+                <Route path="/implicit/callback" component={ImplicitCallback} />
+                <Route path="/login" component={CustomLoginComponent} />
+                <SecureRoute path="/messages" component={Messages} />
+                <SecureRoute path="/profile" component={Profile} />
+              </Container>
+            </Security>
+          </div>
         </Router>
       </div>
 
@@ -59,6 +62,8 @@ class App extends Component {
 }
 
 // App.contextType = ConfigContext;
-
-App = provideConfig(App);
+/* eslint-disable no-class-assign */
+// App = provideUser(App);
+// App = provideAuth(App, customAuthHandler);
+//App = provideConfig(App);
 export default App;

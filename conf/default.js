@@ -11,7 +11,7 @@ const PORTS = {
 };
 
 const BASE_URLS = {
-  MSG_SVC: `http://localhost:${PORTS.MSG_SVC}/api`
+  MSG_SVC: `http://localhost:${PORTS.MSG_SVC}/api`,
 };
 
 module.exports = {

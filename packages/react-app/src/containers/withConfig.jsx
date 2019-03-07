@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigContext } from 'app-common/context';
+import { ConfigContext } from '../context';
 
 function withConfig(Component) {
   const C = props => (
@@ -14,7 +14,7 @@ function withConfig(Component) {
     </ConfigContext.Consumer>
   );
 
-  C.displayName = `provideConfig(${Component.displayName || Component.name})`;
+  C.displayName = `withConfig(${Component.displayName || Component.name})`;
 
   return C;
 }
