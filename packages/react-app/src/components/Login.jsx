@@ -15,14 +15,13 @@ import * as OktaSignIn from '@okta/okta-signin-widget';
 import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
 import '@okta/okta-signin-widget/dist/css/okta-theme.css';
 
-import { ConfigContext } from '../context';
-
 class LoginPage extends Component {
-  constructor(props, context) {
+  constructor(props) {
     super(props);
 
-    const { issuer } = context.common;
-    const config = context.msgApp;
+    const { config } = props;
+    const { issuer } = config.common;
+    const { clientId, redirectUri, scope } = config.msgApp;
     this.signIn = new OktaSignIn({
       /**
        * Note: when using the Sign-In Widget for an OIDC flow, it still
@@ -30,19 +29,19 @@ class LoginPage extends Component {
        * we derive it from the given issuer for convenience.
        */
       baseUrl: issuer.split('/oauth2')[0],
-      clientId: config.clientId,
-      redirectUri: config.redirectUri,
+      clientId,
+      redirectUri,
       logo: '/react.svg',
       i18n: {
         en: {
-          'primaryauth.title': 'Sign in to React & Company',
+          'primaryauth.title': 'Sign in to Puppet Theater',
         },
       },
       authParams: {
         responseType: ['id_token', 'token'],
         issuer,
         display: 'page',
-        scopes: config.scope.split(' '),
+        scopes: scope.split(' '),
       },
     });
   }
@@ -68,8 +67,6 @@ class LoginPage extends Component {
     );
   }
 }
-
-LoginPage.contextType = ConfigContext;
 
 export default LoginPage;
 

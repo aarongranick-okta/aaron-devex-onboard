@@ -1,5 +1,11 @@
 import { connect } from 'react-redux';
 import Navbar from '../components/Navbar';
-import { login } from '../actions';
+import { login, logout } from '../actions';
 
-export default connect(null, { login })(Navbar);
+const mapState = (state) => {
+  const { auth } = state;
+  const { authenticated, userinfo } = auth;
+  return { authenticated, userinfo };
+};
+
+export default connect(mapState, { login, logout })(Navbar);

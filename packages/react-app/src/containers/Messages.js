@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { withAuth } from '@okta/okta-react';
-import Home from '../components/Home';
+import Messages from '../components/Messages';
 import { login } from '../actions';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const { auth } = state;
   const { authenticated, userinfo } = auth;
   return { authenticated, userinfo };
@@ -15,4 +15,4 @@ function mapDispatchToProps(dispatch, ownProps) {
   };
 }
 
-export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Messages));

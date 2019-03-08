@@ -11,7 +11,7 @@ const PORTS = {
 };
 
 const BASE_URLS = {
-  MSG_SVC: `http://localhost:${PORTS.MSG_SVC}/api`,
+  MSG_SVC: `http://localhost:${PORTS.MSG_SVC}`,
 };
 
 module.exports = {
@@ -30,8 +30,9 @@ module.exports = {
   },
   msgSvc: {
     baseUrl: `${BASE_URLS.MSG_SVC}`,
-    messagesUrl: `${BASE_URLS.MSG_SVC}/messages`,
-    postUrl: `${BASE_URLS.MSG_SVC}/post`,
+    clientScriptUrl: `${BASE_URLS.MSG_SVC}/primus/primus.js`,
+    messagesUrl: `${BASE_URLS.MSG_SVC}/api/messages`,
+    postUrl: `${BASE_URLS.MSG_SVC}/api/post`,
     port: PORTS.MSG_SVC,
     assertClaims: {
       aud: 'api://default',

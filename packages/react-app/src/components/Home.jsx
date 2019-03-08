@@ -13,32 +13,8 @@
 // import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
 import { Button, Header } from 'semantic-ui-react';
-import withUser from '../containers/withUser';
-
-import { LOGIN } from '../constants/ActionTypes';
 
 const Home = (props) => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = { authenticated: null, userinfo: null };
-  //   //this.checkAuthentication = checkAuthentication.bind(this);
-  //   this.login = this.login.bind(this);
-  // }
-
-  // // async componentDidMount() {
-  // //   this.checkAuthentication();
-  // // }
-
-  // // async componentDidUpdate() {
-  // //   this.checkAuthentication();
-  // // }
-
-  // async login() {
-  //   //this.props.auth.login('/');
-  //   (this.props.login)();
-  // }
-
-  // render() {
   const resourceServerExamples = [
     {
       label: 'Node/Express Resource Server Example',
@@ -58,7 +34,9 @@ const Home = (props) => {
           <Header as="h1">Custom Login Page with Sign In Widget</Header>
           {authenticated &&
             <div>
-              <p>Welcome back, {userinfo.name}!</p>
+              { userinfo &&
+                <p>Welcome back, {userinfo.name}!</p>
+              }
               <p>
                 You have successfully authenticated against your Okta org, and have been redirected back to this application.  You now have an ID token and access token in local storage.
                 Visit the <a href="/profile">My Profile</a> page to take a look inside the ID token.

@@ -6,4 +6,5 @@ const UserContext = React.createContext({
   authenticated: false,
   userinfo: null,
 });
-export { ConfigContext, AuthContext, UserContext };
+const ActionContext = React.createContext({});
+export { ConfigContext, AuthContext, UserContext, ActionContext };

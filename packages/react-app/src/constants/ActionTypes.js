@@ -1,4 +1,8 @@
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const SET_AUTH = 'SET_AUTH';
+export const SET_USERINFO = 'SET_USERINFO';
+export const SET_MESSAGES = 'SET_MESSAGES';
 export const ADD_TODO = 'ADD_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const EDIT_TODO = 'EDIT_TODO';

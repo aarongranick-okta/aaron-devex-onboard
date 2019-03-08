@@ -9,55 +9,15 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-const cors = require('cors');
+
+
 const CONFIG = require('conf/default');
+const createExpressApp = require('./express');
+const createPrimus = require('./primus');
 
-const express = require('express');
-const bodyParser = require('body-parser');
-
-const state = {
-  allMessages: [],
-  sentMessages: {},
-  receivedMessages: {},
-};
-
-const serverState = require('./middleware/state')(state);
-const authenticationRequired = require('./middleware/auth')(CONFIG);
-
-const app = express();
-
-/**
- * For local testing only!  Enables CORS for all domains
- */
-app.use(cors());
-
-app.use(serverState);
-
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello!  There\'s not much to see here :) Please grab one of our front-end samples for use with this sample resource server',
-  });
+const app = createExpressApp(CONFIG);
+const PORT = CONFIG.msgSvc.port;
+const server = app.listen(PORT, () => {
+  console.log(`Resource Server Ready on port ${PORT}`);
 });
-
-/**
- * An example route that requires a valid access token for authentication, it
- * will echo the contents of the access token if the middleware successfully
- * validated the token.
- */
-app.get('/api/secure', authenticationRequired, (req, res) => {
-  res.json(req.jwt);
-});
-
-/**
- * Another example route that requires a valid access token for authentication, and
- * print some messages for the user if they are authenticated
- */
-app.get('/api/messages', authenticationRequired, require('./endpoints/messages'));
-
-app.use(bodyParser.json());
-
-app.post('/api/post', authenticationRequired, require('./endpoints/post'));
-
-app.listen(CONFIG.msgSvc.port, () => {
-  console.log(`Resource Server Ready on port ${CONFIG.msgSvc.port}`);
-});
+createPrimus(CONFIG, server);

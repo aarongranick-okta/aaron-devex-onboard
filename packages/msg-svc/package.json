@@ -20,15 +20,16 @@
     "wait-on": "2.0.2"
   },
   "dependencies": {
-    "conf": "1.0.0",
-    "core-common": "1.0.0",
     "@okta/jwt-verifier": "0.0.11",
     "@okta/oidc-middleware": "0.0.15",
     "body-parser": "^1.18.3",
     "colors": "^1.1.2",
+    "conf": "1.0.0",
+    "core-common": "1.0.0",
     "cors": "^2.8.4",
     "express": "^4.14.0",
     "express-session": "^1.15.6",
-    "mustache-express": "^1.2.5"
+    "mustache-express": "^1.2.5",
+    "primus": "^7.3.2"
   }
 }

@@ -13,52 +13,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
-import { Auth } from '@okta/okta-react';
 
 // import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { configureStore } from 'redux-starter-kit'
+import { configureStore } from 'redux-starter-kit';
 
 import App from './containers/App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import provideConfig from './containers/provideConfig';
-// import provideAuth from './containers/provideAuth';
-// import provideUser from './containers/provideUser';
-
-// import App from './components/App'
 import rootReducer from './reducers';
+import { ActionContext } from './context';
+import * as Actions from './actions';
 
 const config = require('conf/default');
-
-function customAuthHandler({ history }) {
-  // Redirect to the /login page that has a CustomLoginComponent
-  history.push('/login');
-}
-
-const auth = new Auth({
-  issuer: config.common.issuer,
-  client_id: config.msgApp.clientId,
-  redirect_uri: config.msgApp.redirectUri,
-  onAuthRequired: customAuthHandler,
-});
 
 const store = configureStore({
   reducer: rootReducer,
   preloadedState: { config },
 });
 
-// WrappedApp = provideUser(App);
-// WrappedApp = provideAuth(App, auth);
-// const WrappedApp = provideConfig(App, CONFIG);
+const actionContext = {};
+Object.keys(Actions).forEach(key => {
+  console.log(key);
+});
 
 /* global document */
-/* eslint-disable react/jsx-filename-extension */
-ReactDOM.render(
-  <Provider store={store}>
-    <App auth={auth} />
-  </Provider>,
-  document.getElementById('root'),
-);
+
+// Inject client script to connect to streaming resources
+const script = document.createElement('script');
+script.src = `${config.msgSvc.clientScriptUrl}`;
+document.head.appendChild(script);
+
+script.onload = () => {
+  /* eslint-disable react/jsx-filename-extension */
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root'),
+  );
+};
 
 registerServiceWorker();
+
