@@ -1,3 +1,5 @@
+import { setMessages } from './index';
+
 const getMessages = (auth, config) => async (dispatch) => {
   try {
     const accessToken = await auth.getAccessToken();
@@ -27,9 +29,11 @@ const getMessages = (auth, config) => async (dispatch) => {
     //     id: `message-${index}`,
     //   };
     // });
-    this.setState({ allMessages, sentMessages, failed: false });
+    dispatch(setMessages({ allMessages, sentMessages, failed: false }));
   } catch (err) {
-    this.setState({ failed: true });
+    // this.setState({ failed: true });
+
+    dispatch(setMessages({ failed: true }));
     /* eslint-disable no-console */
     console.error(err);
   }

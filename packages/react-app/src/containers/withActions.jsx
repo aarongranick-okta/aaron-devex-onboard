@@ -5,7 +5,7 @@ function withActions(Component) {
   const C = props => (
     <ActionContext.Consumer>
       { (value) => {
-          const extra = { actionCreators: value };
+          const extra = { actionContext: value };
           return (
             <Component {...props} {...extra} />
           );

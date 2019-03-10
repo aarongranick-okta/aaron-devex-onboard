@@ -2,10 +2,10 @@ import { AUTH_STATE } from '../constants/ActionTypes';
 
 const updateState = (auth) => {
   return async (dispatch) => {
-    const authenticated = false; // await auth.isAuthenticated();
-    const accessToken = null; // await auth.getAccessToken();
-    const userinfo = null; // await auth.getUser();
-    dispatch({
+    const authenticated = await auth.isAuthenticated();
+    const accessToken = await auth.getAccessToken();
+    const userinfo = await auth.getUser();
+    return dispatch({
       type: AUTH_STATE,
       authenticated,
       accessToken,

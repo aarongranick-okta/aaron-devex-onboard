@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import Navbar from '../components/Navbar';
+import Profile from '../components/Profile';
 import withActions from './withActions';
 
 const mapState = (state) => {
@@ -10,9 +8,9 @@ const mapState = (state) => {
   return { authenticated, userinfo };
 };
 
-const mapDispatch = (dispatch, props) => {
+const mapDispatch = (state, props) => {
   const { login, logout } = props.actionContext;
-  return bindActionCreators({ login, logout }, dispatch);
+  return { login, logout };
 };
 
-export default withActions(connect(mapState, mapDispatch)(Navbar));
+export default withActions(connect(mapState, mapDispatch)(Profile));

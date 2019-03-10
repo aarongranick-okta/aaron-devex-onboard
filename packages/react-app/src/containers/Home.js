@@ -9,7 +9,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  const { login } = ownProps.actionCreators;
+  const { login } = ownProps.actionContext;
   return bindActionCreators({ login }, dispatch);
 }
 

@@ -27,8 +27,8 @@ import './index.css';
 // pages
 import Home from './containers/Home';
 import Login from './containers/Login';
-import Messages from './components/Messages';
-import Profile from './components/Profile';
+import Messages from './containers/Messages';
+import Profile from './containers/Profile';
 
 import App from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
@@ -41,7 +41,7 @@ const config = { ...DEFAULT_CONFIG };
 const history = createHistory();
 const auth = createAuth(config, history);
 
-// bind action functions, expose in ActionContext
+// bind action functions, expose to components as actionContext
 const actionContext = {
   ...Actions,
   getMessages: () => getMessages(auth, config),
@@ -51,16 +51,6 @@ const actionContext = {
   },
   logout: () => AuthActions.logout(auth),
 };
-
-// Configure redux store
-const store = configureStore({
-  reducer: rootReducer,
-  preloadedState: { config },
-  middleware: [...getDefaultMiddleware()],
-});
-
-// determine current auth state
-//store.dispatch(AuthActions.updateState(auth));
 
 /* eslint-disable react/jsx-filename-extension */
 const SecureRouter = props => (
@@ -73,22 +63,51 @@ const SecureRouter = props => (
   </Router>
 );
 
-/* global document */
+const routes = [
+  <Route key="home" path="/" exact component={Home} />,
+  <Route key="callback" path="/implicit/callback" component={ImplicitCallback} />,
+  <Route key="login" path="/login" component={Login} />,
+  <SecureRoute key="messages" path="/messages" component={Messages} />,
+  <SecureRoute key="profile" path="/profile" component={Profile} />,
+];
 
-ReactDOM.render(
-  <Provider store={store}>
-    <ActionContext.Provider value={actionContext}>
-      <App Router={SecureRouter}>
-        <Route key="home" path="/" exact component={Home} />
-        <Route key="callback" path="/implicit/callback" component={ImplicitCallback} />
-        <Route key="login" path="/login" component={Login} />
-        <SecureRoute key="messages" path="/messages" component={Messages} />
-        <SecureRoute key="profile" path="/profile" component={Profile} />
-      </App>
-    </ActionContext.Provider>
-  </Provider>,
-  document.getElementById('root'),
-);
+// Configure redux store
+const store = configureStore({
+  reducer: rootReducer,
+  preloadedState: { config },
+  middleware: [...getDefaultMiddleware()],
+});
+
+function renderApp() {
+  /* global document */
+  ReactDOM.render(
+    <Provider store={store}>
+      <ActionContext.Provider value={actionContext}>
+        <App Router={SecureRouter}>
+          {routes}
+        </App>
+      </ActionContext.Provider>
+    </Provider>,
+    document.getElementById('root'),
+  );
+}
+
+async function start() {
+  // determine current auth state
+  await store.dispatch(AuthActions.updateState(auth));
+  const state = store.getState();
+  const { authenticated } = state.authState;
+  if (authenticated) {
+    console.log('authenticated, therefore requesting messages');
+    store.dispatch(actionContext.getMessages());
+  } else {
+    console.log('NOT authenticated');
+  }
+
+  renderApp();
+}
+
+registerServiceWorker();
 
 // Inject client script to connect to streaming resources
 const script = document.createElement('script');
@@ -99,11 +118,10 @@ script.onload = () => {
   console.log('primus loaded');
 };
 
-registerServiceWorker();
-
 /* global window */
 window.auth = auth;
 window.kickoff = () => {
   store.dispatch(AuthActions.updateState(auth));
 };
 
+start();

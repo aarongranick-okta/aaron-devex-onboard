@@ -10,95 +10,40 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { withAuth } from '@okta/okta-react';
-import React, { Component } from 'react';
+import React from 'react';
 import { Header, Icon, Message } from 'semantic-ui-react';
-
-import { ConfigContext } from '../context';
 import Compose from '../components/Compose';
 import MessageList from '../components/MessageList';
 
-class Messages extends Component {
-  static get contextType() {
-    return ConfigContext;
-  }
-  constructor(props) {
-    super(props);
-    this.state = { messages: null, failed: null };
-  }
+const Messages = (props) => {
+  const possibleErrors = [
+    'You\'ve downloaded one of our resource server examples, and it\'s running on port 8000.',
+    'Your resource server example is using the same Okta authorization server (issuer) that you have configured this React application to use.',
+  ];
 
-  componentDidMount() {
-    this.getMessages();
-  }
+  const { failed, sentMessages, allMessages } = props;
+  return (
+    <div>
+      <Compose />
+      <Header as="h1"><Icon name="mail outline" /> My Messages</Header>
+      {failed === true && <Message error header="Failed to fetch messages.  Please verify the following:" list={possibleErrors} />}
+      {failed === null && <p>Fetching Messages..</p>}
+      {sentMessages && (
+        <div>
+          <b>Sent messages</b>
+          <hr />
+          <MessageList messages={sentMessages} />
+        </div>
+      )}
+      {allMessages && (
+        <div>
+          <b>ALL messages</b>
+          <hr />
+          <MessageList messages={allMessages} />
+        </div>
+      )}
+    </div>
+  );
+};
 
-  async getMessages() {
-    const config = this.context;
-    if (!this.state.messages) {
-      try {
-        const accessToken = await this.props.auth.getAccessToken();
-        /* global fetch */
-        const response = await fetch(config.msgSvc.messagesUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (response.status !== 200) {
-          this.setState({ failed: true });
-          return;
-        }
-
-        // let index = 0;
-        const data = await response.json();
-        const { allMessages, sentMessages } = data;
-        // const messages = data.messages.map((message) => {
-        //   const date = new Date(message.date);
-        //   const day = date.toLocaleDateString();
-        //   const time = date.toLocaleTimeString();
-        //   index += 1;
-        //   return {
-        //     date: `${day} ${time}`,
-        //     text: message.text,
-        //     id: `message-${index}`,
-        //   };
-        // });
-        this.setState({ allMessages, sentMessages, failed: false });
-      } catch (err) {
-        this.setState({ failed: true });
-        /* eslint-disable no-console */
-        console.error(err);
-      }
-    }
-  }
-
-  render() {
-    const possibleErrors = [
-      'You\'ve downloaded one of our resource server examples, and it\'s running on port 8000.',
-      'Your resource server example is using the same Okta authorization server (issuer) that you have configured this React application to use.',
-    ];
-    return (
-      <div>
-        <Compose />
-        <Header as="h1"><Icon name="mail outline" /> My Messages</Header>
-        {this.state.failed === true && <Message error header="Failed to fetch messages.  Please verify the following:" list={possibleErrors} />}
-        {this.state.failed === null && <p>Fetching Messages..</p>}
-        {this.state.sentMessages && (
-          <div>
-            <b>Sent messages</b>
-            <hr />
-            <MessageList messages={this.state.sentMessages} />
-          </div>
-        )}
-        {this.state.allMessages && (
-          <div>
-            <b>ALL messages</b>
-            <hr />
-            <MessageList messages={this.state.allMessages} />
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-export default withAuth(Messages);
+export default Messages;

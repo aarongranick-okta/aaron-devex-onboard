@@ -10,85 +10,43 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Header, Icon, Table } from 'semantic-ui-react';
 
-//import withConfig from '../containers/withConfig';
-import withUser from '../containers/withUser';
-
-class Profile extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   //this.state = { userinfo: null, ready: false };
-  // }
-
-  // async componentDidMount() {
-  //   await this.checkAuthentication();
-  //   this.applyClaims();
-
-  //   const { config } = this.props;
-  //   const accessToken = await this.props.auth.getAccessToken();
-  //   /* global fetch */
-  //   const response = await fetch(`${config.msgSvc.baseUrl}/secure`, {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //   });
-  //   const data = await response.json();
-  //   console.log('DATA', data);
-  // }
-
-  // async componentDidUpdate() {
-  //   await this.checkAuthentication();
-  //   this.applyClaims();
-  // }
-
-  // async applyClaims() {
-  //   if (this.state.userinfo && !this.state.claims) {
-  //     const claims = Object.entries(this.state.userinfo);
-  //     this.setState({ claims, ready: true });
-  //   }
-  // }
-
-  render() {
-    const { userinfo } = this.props;
-    const ready = !!userinfo;
-    const claims = userinfo ? Object.entries(userinfo) : [];
-    return (
+const Profile = (props) => {
+  const { userinfo } = props;
+  const ready = !!userinfo;
+  const claims = userinfo ? Object.entries(userinfo) : [];
+  return (
+    <div>
+      {!ready && <p>Fetching user profile..</p>}
+      {ready &&
       <div>
-        {!ready && <p>Fetching user profile..</p>}
-        {ready &&
-        <div>
-          <Header as="h1"><Icon name="drivers license outline" /> My User Profile (ID Token Claims) </Header>
-          <p>
-            Below is the information from your ID token which was obtained during the
-            <a href="https://developer.okta.com/authentication-guide/implementing-authentication/implicit">Implicit Flow</a> and is now stored in local storage.
-          </p>
-          <p>This route is protected with the <code>&lt;SecureRoute&gt;</code> component, which will ensure that this page cannot be accessed until you have authenticated.</p>
-          <Table>
-            <thead>
-              <tr>
-                <th>Claim</th><th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {claims.map((claimEntry) => {
-                const claimName = claimEntry[0];
-                const claimValue = claimEntry[1];
-                const claimId = `claim-${claimName}`;
-                return <tr key={claimName}><td>{claimName}</td><td id={claimId}>{claimValue}</td></tr>;
-              })}
-            </tbody>
-          </Table>
-        </div>
-        }
+        <Header as="h1"><Icon name="drivers license outline" /> My User Profile (ID Token Claims) </Header>
+        <p>
+          Below is the information from your ID token which was obtained during the
+          <a href="https://developer.okta.com/authentication-guide/implementing-authentication/implicit">Implicit Flow</a> and is now stored in local storage.
+        </p>
+        <p>This route is protected with the <code>&lt;SecureRoute&gt;</code> component, which will ensure that this page cannot be accessed until you have authenticated.</p>
+        <Table>
+          <thead>
+            <tr>
+              <th>Claim</th><th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {claims.map((claimEntry) => {
+              const claimName = claimEntry[0];
+              const claimValue = claimEntry[1];
+              const claimId = `claim-${claimName}`;
+              return <tr key={claimName}><td>{claimName}</td><td id={claimId}>{claimValue}</td></tr>;
+            })}
+          </tbody>
+        </Table>
       </div>
-    );
-  }
-}
+      }
+    </div>
+  );
+};
 
-//console.log('withConfig: ', withConfig);
-/* eslint-disable no-class-assign */
-//Profile = withConfig(Profile);
-Profile = withUser(Profile);
 export default Profile;
