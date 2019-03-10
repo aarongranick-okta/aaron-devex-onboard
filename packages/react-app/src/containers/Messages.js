@@ -4,9 +4,9 @@ import Messages from '../components/Messages';
 import { login } from '../actions';
 
 function mapStateToProps(state, ownProps) {
-  const { auth } = state;
+  const { auth, config } = state;
   const { authenticated, userinfo } = auth;
-  return { authenticated, userinfo };
+  return { config, authenticated, userinfo };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {

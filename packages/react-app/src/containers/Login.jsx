@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Login from '../components/Login';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   const { config } = state;
   return { config };
 }

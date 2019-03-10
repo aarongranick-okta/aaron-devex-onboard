@@ -16,12 +16,20 @@ import '@okta/okta-signin-widget/dist/css/okta-sign-in.min.css';
 import '@okta/okta-signin-widget/dist/css/okta-theme.css';
 
 class LoginPage extends Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    const { config } = props;
+
+  // }
+
+  componentWillMount() {
+
+  }
+  componentDidMount() {
+    const { config } = this.props;
     const { issuer } = config.common;
     const { clientId, redirectUri, scope } = config.msgApp;
+
     this.signIn = new OktaSignIn({
       /**
        * Note: when using the Sign-In Widget for an OIDC flow, it still
@@ -44,8 +52,7 @@ class LoginPage extends Component {
         scopes: scope.split(' '),
       },
     });
-  }
-  componentDidMount() {
+
     this.signIn.renderEl(
       { el: '#sign-in-widget' },
       () => {

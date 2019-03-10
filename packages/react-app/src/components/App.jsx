@@ -18,15 +18,14 @@ import Navbar from '../containers/Navbar';
 
 class App extends Component {
   render() {
-    const { pages, services, Router } = this.props;
+    const { children, Router } = this.props;
     return (
       <div>
         <Router>
           <Navbar />
           <Container text style={{ marginTop: '7em' }}>
-            {pages}
+            {children}
           </Container>
-          {services}
         </Router>
       </div>
 

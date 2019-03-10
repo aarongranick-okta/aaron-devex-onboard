@@ -1,18 +1,16 @@
 import { connect } from 'react-redux';
-import { withAuth } from '@okta/okta-react';
+import { bindActionCreators } from 'redux';
 import Home from '../components/Home';
-import { login } from '../actions';
+import withActions from './withActions';
 
 function mapStateToProps(state) {
-  const { auth } = state;
-  const { authenticated, userinfo } = auth;
+  const { authenticated, userinfo } = state.authState;
   return { authenticated, userinfo };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    login: () => dispatch(login(ownProps.auth)),
-  };
+  const { login } = ownProps.actionCreators;
+  return bindActionCreators({ login }, dispatch);
 }
 
-export default withAuth(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withActions(connect(mapStateToProps, mapDispatchToProps)(Home));

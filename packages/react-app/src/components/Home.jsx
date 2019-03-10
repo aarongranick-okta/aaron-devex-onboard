@@ -14,22 +14,31 @@
 import React, { Component } from 'react';
 import { Button, Header } from 'semantic-ui-react';
 
-const Home = (props) => {
-  const resourceServerExamples = [
-    {
-      label: 'Node/Express Resource Server Example',
-      url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server',
-    },
-    {
-      label: 'Java/Spring MVC Resource Server Example',
-      url: 'https://github.com/okta/samples-java-spring-mvc/tree/master/resource-server',
-    },
-  ];
+class Home extends Component {
+  constructor(props) {
+    super(props);
+    console.log('home constructed');
+  }
+  componentWillMount() {
+    console.log('home: will mount');
+  }
 
-  const { authenticated, userinfo, login } = props;
-  return (
-    <div>
-      {authenticated !== null &&
+  render() {
+    const resourceServerExamples = [
+      {
+        label: 'Node/Express Resource Server Example',
+        url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server',
+      },
+      {
+        label: 'Java/Spring MVC Resource Server Example',
+        url: 'https://github.com/okta/samples-java-spring-mvc/tree/master/resource-server',
+      },
+    ];
+
+    const { authenticated, userinfo, login } = this.props;
+    return (
+      <div>
+        {authenticated !== null &&
         <div>
           <Header as="h1">Custom Login Page with Sign In Widget</Header>
           {authenticated &&
@@ -73,9 +82,10 @@ const Home = (props) => {
           }
         </div>
         }
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 
 export default Home;

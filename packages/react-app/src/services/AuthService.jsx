@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withAuth } from '@okta/okta-react';
 import { connect } from 'react-redux';
-import { setAuth, setUserInfo } from '../actions';
+//import { initAuth, checkAuth, setAuth, setUserInfo } from '../actions';
 
 // Must be a child of the Okta Security component (which must be a child of Router)
 // Watches auth state and Pushes to redux store
@@ -12,31 +12,33 @@ class AuthService extends Component {
   }
 
   async componentDidMount() {
-    this.checkAuthentication();
+    // const { auth, init } = this.props;
+    // init(auth);
+    // this.checkAuthentication();
   }
 
   async componentDidUpdate() {
-    this.checkAuthentication();
+    // this.checkAuthentication();
   }
 
   /**
    * Helper function that watches the authenticate state, then applies it
    * as a boolean (authenticated) as well as attaches the userinfo data.
    */
-  async checkAuthentication() {
-    const {
-      auth, dispatch, authenticated, userinfo,
-    } = this.props;
-    let res = await auth.isAuthenticated();
-    if (res !== authenticated) {
-      dispatch(setAuth(res));
-    }
+  // async checkAuthentication() {
+  //   const {
+  //     auth, dispatch, authenticated, userinfo,
+  //   } = this.props;
+  //   let res = await auth.isAuthenticated();
+  //   if (res !== authenticated) {
+  //     dispatch(setAuth(res));
+  //   }
 
-    res = await auth.getUser();
-    if (res !== userinfo) {
-      dispatch(setUserInfo(res));
-    }
-  }
+  //   res = await auth.getUser();
+  //   if (res !== userinfo) {
+  //     dispatch(setUserInfo(res));
+  //   }
+  // }
 
   render() {
     return <div />;
@@ -48,4 +50,4 @@ function mapState(state) {
   return { authenticated, userinfo };
 }
 
-export default withAuth(connect(mapState)(AuthService));
+export default AuthService; // withAuth(connect(mapState, { init: initAuth })(AuthService));
