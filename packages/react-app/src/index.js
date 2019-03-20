@@ -130,6 +130,9 @@ function renderApp() {
 }
 
 async function start() {
+
+  renderApp();
+  
   // determine current auth state
   await store.dispatch(AuthActions.updateState(auth));
   const state = store.getState();
@@ -141,7 +144,7 @@ async function start() {
     debug('NOT authenticated');
   }
 
-  renderApp();
+  //renderApp();
 }
 
 registerServiceWorker();

@@ -10,3 +10,4 @@ samples-nodejs-express-4
 .DS_Store
 .vscode
 testenv
+.env
