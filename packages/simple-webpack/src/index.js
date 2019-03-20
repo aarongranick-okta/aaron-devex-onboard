@@ -32,12 +32,14 @@ const oktaAuth = new OktaAuth({
 window.login = async function login(event) {
   event.preventDefault(); // Necessary to prevent default navigation for redirect below
 
+  const issuer = ISSUER;
   const clientId = CLIENT_ID;
   const redirectUri = REDIRECT_URI;
   const responseType = ['id_token', 'token'];
   const scopes = ['openid', 'email', 'profile'];
 
   oktaAuth.token.getWithRedirect({
+    issuer,
     clientId,
     redirectUri,
     responseType,
@@ -100,7 +102,13 @@ async function start() {
     handleAuthentication();
     return renderCallback();
   }
-  const user = await getUser();
+  let user;
+  try {
+    user = await getUser();
+  } catch (e) {
+    console.error(e);
+  }
+
   return renderApp({
     user,
   });
